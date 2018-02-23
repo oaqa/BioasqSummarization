@@ -3,8 +3,8 @@ import json
 import os
 from nltk.tokenize import sent_tokenize, word_tokenize
 
-import pyrouge
-from pyrouge import Rouge155
+import PyRouge
+from PyRouge import Rouge155
 
 import logging
 from logging import config

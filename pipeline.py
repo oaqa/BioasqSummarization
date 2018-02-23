@@ -9,7 +9,7 @@ from Ranker.CoreMMR import CoreMMR
 
 from Tiler.Concatenation import Concatenation
 
-from Fusion import Fusion
+from Fusion.Fusion import Fusion
 
 from Order.MajorityCluster import MajorityCluster
 

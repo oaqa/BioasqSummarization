@@ -8,6 +8,6 @@ class SimilarityMeasure(object):
 		self.sentence2 = sentence2
 		self.stopWords = set(stopwords.words('english'))
 
-	def calculateSimilarity(self):
+	def calculateSimilarity(self, sentence1, sentence2):
 		pass
 	
