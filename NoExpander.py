@@ -1,4 +1,4 @@
-from Expander import Expander
+from Expander.Expander import Expander
 
 import logging
 from logging import config

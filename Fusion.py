@@ -1,6 +1,5 @@
-from Tiler import Tiler
-from SimilarityCosine import *
-from SimilarityJaccard import *
+from Tiler.Tiler import Tiler
+from Ranker.SimilarityJaccard import *
 
 
 
@@ -16,7 +15,7 @@ import pulp
 import nltk
 import string
 import re
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import word_tokenize
 
 
 logging.config.fileConfig('logging.ini')

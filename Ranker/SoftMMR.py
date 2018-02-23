@@ -1,5 +1,5 @@
-from BiRanker import BiRanker
-from SimilarityJaccard import *
+from Ranker.BiRanker import BiRanker
+from Ranker.SimilarityJaccard import *
 
 import logging
 from logging import config

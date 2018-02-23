@@ -1,4 +1,4 @@
-from SimilarityJaccard import *
+from Ranker.SimilarityJaccard import *
 import operator
 
 class SimilarityRanker: #QuestionSimilarityRanker

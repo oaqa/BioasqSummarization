@@ -1,39 +1,22 @@
-from flask import Flask, request, abort, render_template
-from flask import jsonify, render_template
 import sys
 import json
 import copy
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import sent_tokenize
 
-from Expander import Expander
 from NoExpander import NoExpander
-from SnomedctExpander import SnomedctExpander
-from UMLSExpander import UMLSExpander
 
-from BiRanker import BiRanker
-from CoreMMR import CoreMMR
-from SoftMMR import SoftMMR
-from HardMMR import HardMMR
+from Ranker.CoreMMR import CoreMMR
 
-from Tiler import Tiler
-from Concatenation import Concatenation
+from Tiler.Concatenation import Concatenation
 
 from Fusion import Fusion
-import EvaluatePrecision
 
-from KMeansSimilarityOrderer import KMeansSimilarityOrderer
-from MajorityOrder import MajorityOrder
-from MajorityCluster import MajorityCluster
-
-from Evaluator import Evaluator
-import pyrouge
-from pyrouge import Rouge155
+from Order.MajorityCluster import MajorityCluster
 
 import logging
 from logging import config
 
-from pymetamap import MetaMap
-from singletonConceptId import *
+from Expander.singletonConceptId import *
 
 import question_classifier
 
