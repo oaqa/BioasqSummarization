@@ -2,10 +2,12 @@ import abc
 from abc import abstractmethod
 
 import os
-from pymedtermino import *
-from pymedtermino.snomedct import *
-from pymedtermino.umls import *
-from pymetamap import MetaMap
+
+from deiis.rabbit import Task
+# from pymedtermino import *
+# from pymedtermino.snomedct import *
+# from pymedtermino.umls import *
+# from pymetamap import MetaMap
 
 from singletonConceptId import *
 
@@ -24,11 +26,14 @@ The subclass that extends the abstract class is valid if and only if all the abs
 logging.config.fileConfig('logging.ini')
 logger = logging.getLogger('bioAsqLogger')
 
-class Expander:
-	__metaclass__ = abc.ABCMeta
-	@classmethod
-	def __init__(self): #constructor for the abstract class
-		pass
+class Expander(Task):
+	# __metaclass__ = abc.ABCMeta
+	# @classmethod
+	def __init__(self, route, host='localhost'): #constructor for the abstract class
+		super(Expander, self).__init__(route, host=host)
+
+	def perform(self, sentence):
+		return self.getExpansions(sentence)
 
 	#This is the abstract method that is implemented by the subclasses.
 	@abstractmethod
@@ -50,6 +55,14 @@ class Expander:
 		except Exception as e:
 			logger.debug('Metamap exception '+ str(e))
 			return []
+
+
+class NoneExpander(Expander):
+	def __init__(self, host='localhost'):
+		super(NoneExpander, self).__init__('expand.none', host=host)
+
+	def getExpansions(self,sentence):
+		return sentence
 
 
 #If this part is uncommented in the code and run then it should throw an error because the abstract methods are not implemented.

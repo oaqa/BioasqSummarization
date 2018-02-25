@@ -8,3 +8,5 @@ deiis/build
 deiis/egg
 deiis/dist
 deiis/deiis.egg-info
+*.pyc
+*.tgz

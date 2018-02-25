@@ -1,0 +1,32 @@
+# Base Makefile that is included by the module Makefiles.
+
+REPO=docker.lappsgrid.org
+IMAGE=deiis/$(NAME)
+
+docker:
+	docker build -t $(IMAGE) .
+
+start:
+	docker run -d --name $(NAME) $(IMAGE)
+
+stop:
+	docker rm -f $(NAME)
+
+run:
+	docker run -it --rm --name $(NAME) $(IMAGE) /bin/bash
+
+push:
+	docker tag $(IMAGE) $(REPO)/$(IMAGE)
+	docker push $(REPO)/$(IMAGE)
+
+help:
+	@echo
+	@echo "GOALS"
+	@echo
+	@echo "docker - builds the image [default]"
+	@echo "push   - pushes the image to $REPO"
+	@echo "run    - runs the Docker container"
+	@echo "stop   - stops a running Docker container"			
+	@echo "help   - prints this help message"
+	@echo
+		

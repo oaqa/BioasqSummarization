@@ -5,7 +5,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import logging
 from logging import config
 
-import question_category
+#import question_category
 
 '''
 @Author: Khyathi Raghavi Chandu
@@ -22,6 +22,12 @@ logger = logging.getLogger('bioAsqLogger')
 This is a subclass that extends the abstract class Tiler.
 '''
 class Concatenation(Tiler):
+
+	def __init__(self, host='localhost'):
+		super(Concatenation, self).__init__('tiler.concat', host=host)
+
+	#def perform(self, input):
+	#	return self.tileSentences(input, 7)
 
 	#Abstract method from Tiler class that takes a list of sentences as arguments and returns the final summary in a single string.
 	def tileSentences(self, sentences, pred_length):

@@ -1,8 +1,8 @@
 from Expander import Expander
 
-from pymedtermino import *
-from pymedtermino.umls import *
-from pymetamap import MetaMap
+# from pymedtermino import *
+# from pymedtermino.umls import *
+# from pymetamap import MetaMap
 from Authentication import *
 
 from singletonConceptId import *
@@ -23,12 +23,16 @@ This code returns the sentence passed as argument with concept expansion from UM
 '''
 
 logging.config.fileConfig('logging.ini')
-logger = logging.getLogger('bioAsqLogger')
+# logger = logging.getLogger('bioAsqLogger')
 
 #This is a subclass that extends the abstract class Expander.
 class UMLSExpander(Expander):
 
+	def __init__(self, host='localhost'):
+		super(UMLSExpander, self).__init__('expand.umls', host=host)
+
 	#Credentails to access the REST API of UMLS
+	# TODO Move the login credentials to a secure location!
 	def getCredentials(self):
 		#umls authentication
 		self.username = "khyathi"
@@ -44,7 +48,7 @@ class UMLSExpander(Expander):
 		self.getCredentials()
 		self.AuthClient = Authentication(self.username,self.password)
 
-		logger.info('In getExpansions function of UMLSExpander')
+		self.logger.info('In getExpansions function of UMLSExpander')
 		#get TGT for our session
 		self.tgt = self.AuthClient.gettgt()
 		self.uri = "https://uts-ws.nlm.nih.gov"
@@ -57,11 +61,11 @@ class UMLSExpander(Expander):
 			try:
 				for el in self.cache[mconcept]:
 					synonyms.append(el)
-				logger.info('Found UMLS Cached Concept: '+ str(mconcept.cui))
+				self.logger.info('Found UMLS Cached Concept: '+ str(mconcept.cui))
 			except:
 				try:
 					termSyns = []
-					logger.info('Getting concept expansions from UMLS')
+					self.logger.info('Getting concept expansions from UMLS')
 					#metamap has direct mapping with UMLS based on Concept Unique Identification (CUI)
 					cui = mconcept.cui
 					content_endpoint = "/rest/content/"+str(self.version)+"/CUI/"+str(cui)
@@ -85,9 +89,9 @@ class UMLSExpander(Expander):
 							termSyns.append(el['relatedIdName'])
 							synonyms.append(el['relatedIdName'])
 						self.cache[mconcept] = termSyns
-						logger.info('Parsed the JSON object returned from UMLS')
+						self.logger.info('Parsed the JSON object returned from UMLS')
 					except Exception as e:
-						logger.debug('Exception in UMLS Expansion '+ str(e))
+						self.logger.debug('Exception in UMLS Expansion '+ str(e))
 						pass
 				except:
 					pass

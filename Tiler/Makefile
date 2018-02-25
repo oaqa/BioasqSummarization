@@ -1,3 +1,3 @@
-NAME=expander
+NAME=tiler
 
 include ../Makefile.master

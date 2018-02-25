@@ -1,6 +1,7 @@
 from pymetamap import MetaMap
 import os
 import diskcache as dc
+import ConfigParser
 
 class Singleton:
 	def __init__(self,cls):
@@ -15,10 +16,15 @@ class Singleton:
 @Singleton
 class SingletonMetaMap:
 	def __init__(self):
-		self.mm = MetaMap.get_instance('/home/khyathi/installations/public_mm/bin/metamap')
-		self.start_command = "/Users/khyathi/installations/public_mm/bin/skrmedpostctl start"
-		self.stop_command = "/Users/khyathi/installations/public_mm/bin/skrmedpostctl stop"
-	
+		# self.mm = MetaMap.get_instance('/home/khyathi/installations/public_mm/bin/metamap')
+		# self.start_command = "/Users/khyathi/installations/public_mm/bin/skrmedpostctl start"
+		# self.stop_command = "/Users/khyathi/installations/public_mm/bin/skrmedpostctl stop"
+		config = ConfigParser.ConfigParser()
+		config.read('application.ini')
+		self.mm = MetaMap.get_instance(config.get('MetaMap', 'instance'))
+		self.start_command = config.get('MetaMap', 'start')
+		self.stop_command = config.get('MetaMap', 'stop')
+
 	def startMetaMap(self):
 		os.system(self.start_command)
 

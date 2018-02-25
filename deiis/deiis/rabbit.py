@@ -17,6 +17,9 @@ import logging
 
 from deiis.model import Serializer, JsonObject, Type
 
+# Flag to mark a message as persistent. Messages that are marked as persistent
+# will be remembered in the event the broker restarts.  Note that messages
+# will only be persisted on "durable" message queues.
 PERSIST = pika.BasicProperties(delivery_mode=2)
 
 # Python 3 does not have a basestring type. So on Python 3 we assign the 'str'
@@ -40,6 +43,12 @@ class Message(JsonObject):
     to services, e.g. shutdown.
 
     """
+#    class Type:
+    COMMAND = 'command'
+    ROUTE = 'route'
+
+    POISON = 'DIE'
+
     properties = {
         'type': (lambda: 'route'),
         'body': Type.text,
@@ -325,10 +334,10 @@ class Task(object):
     The Task class does all the administrative busy-work needed to manage the
     RabbitMQ queues so services only need to implement the `perform` method.
     """
-    def __init__(self, route):
+    def __init__(self, route, host='localhost'):
         """Route is a String containing the unique address for the service."""
-        self.bus = MessageBus()
-        self.listener = BusListener(route)
+        self.bus = MessageBus(host=host)
+        self.listener = BusListener(route, host=host)
         self.listener.register(self._handler)
         self.thread = False
         self.route = route
@@ -358,8 +367,19 @@ class Task(object):
         """Default message handler that calls the user's `perform` method
            and then acknowledges the message.
         """
-        self.perform(message)
+        message = Serializer.parse(message, Message)
+        if message.type == Message.COMMAND:
+            self.logger.debug("Received a command message")
+            if message.body == Message.POISON:
+                self.logger.info("Recieved the poison pill.")
+                self.stop()
+            else:
+                self.command(message.body)
+        else:
+            message.body = self.perform(message.body)
+
         self.ack(method)
+        self.deliver(message)
 
     def ack(self, method):
         """Shorthand for what is otherwise a really lengthy method call."""
@@ -378,8 +398,12 @@ class Task(object):
         self.thread.join()
         self.logger.debug('Thread %s terminated.', self.__class__.__name__)
 
-    def perform(self, input):
+    def perform(self, message):
         """Services should override this method to handle incoming messages."""
+        pass
+
+    def command(self, command):
+        """Services can override the command method to handle custom command messages."""
         pass
 
     def deliver(self, message):
