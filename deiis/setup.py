@@ -2,7 +2,7 @@ from setuptools import setup
 setup(
   name = 'deiis',
   packages = ['deiis'], # this must be the same as the name above
-  version = '0.0.7',
+  version = '0.0.8',
   description = 'Python classes for CMU 11-791',
   author = 'Keith Suderman',
   author_email = 'suderman@cs.vassar.edu',

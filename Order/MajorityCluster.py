@@ -6,7 +6,8 @@ import re
 
 
 class MajorityCluster(SentenceOrderer):
-    def __init__(self):
+    def __init__(self, host='localhost'):
+        super(MajorityCluster, self).__init__('order.cluster', host=host)
         self.stopwords = set(stopwords.words('english'))
 
     def orderSentences(self, sentences, snippets, info_dict):

@@ -1,6 +1,7 @@
 import abc
 from abc import abstractmethod
 
+from deiis.model import Serializer
 from deiis.rabbit import Task
 
 '''
@@ -13,7 +14,7 @@ This is an Abstract class that serves as a template for implementations for orde
 
 
 class SentenceOrderer(Task):
-    # __metaclass__ = abc.ABCMeta
+    __metaclass__ = abc.ABCMeta
 
     # abstract method that should be implemented by the subclass that extends this abstract class
     # @abstractmethod
@@ -21,7 +22,8 @@ class SentenceOrderer(Task):
         super(SentenceOrderer, self).__init__(route, host=host)
 
     def perform(self, input):
-        pass
+        data = Serializer.parse(input)
+        return self.orderSentences(data['sentences'], data['snippets'], data['info_dict'])
 
     # abstract method that should be implemented by the subclass that extends this abstract class
     @abstractmethod

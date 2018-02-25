@@ -9,8 +9,8 @@ import numpy as np
 # TODO: Should we account for sentence length somehow? Seems like longer sentences will be heavily advantaged.
 class KMeansSimilarityOrderer(SentenceOrderer):
 
-	def __init__(self):
-		pass
+	def __init__(self, host='localhost'):
+		super(KMeansSimilarityOrderer, self).__init__('order.kmeans', host=host)
 
 	def setup(self, sentences, snippets, k, max_iter, max_tokens):
 		self.k = k

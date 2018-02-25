@@ -2,8 +2,8 @@ from SentenceOrderer import SentenceOrderer
 
 
 class MajorityOrder(SentenceOrderer):
-    def __init__(self):
-        pass
+    def __init__(self, host='localhost'):
+        super(MajorityOrder, self).__init__('order.majority', host=host)
 
     def orderSentences(self, sentences, snippets, info_dict):
         ordered_answer = []

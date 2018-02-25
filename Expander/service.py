@@ -28,7 +28,7 @@ if __name__ == "__main__":
     # And wait for them to terminate.
     logger.info('Waiting for the tasks to end.')
     for task in tasks:
-        task.join()
+        task.wait_for()
 
     logger.info('Done.')
 

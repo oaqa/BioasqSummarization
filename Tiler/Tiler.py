@@ -17,8 +17,8 @@ This is an Abstract class that serves as a template for implementations for tili
 Currently there is only one technique implemented which is simple concatenation.
 '''
 class Tiler(Task):
-	#__metaclass__ = abc.ABCMeta
-	#@classmethod
+	__metaclass__ = abc.ABCMeta
+
 	def __init__(self, route, host='localhost'):
 		super(Tiler, self).__init__(route, host=host) #, host='172.17.0.2')
 

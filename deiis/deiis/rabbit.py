@@ -87,11 +87,16 @@ class MessageBus(object):
         self.channel.exchange_declare(exchange=exchange, exchange_type='direct')
         self.exchange = exchange
 
-    def publish(self, route, message):
+    def send(self, message):
+        target = message.forward()
+        if target is not None:
+            self.publish(target, message)
+
+    def publish(self, target, message):
         if not isinstance(message, basestring):
             message = Serializer.to_json(message)
         try:
-            self.channel.basic_publish(exchange=self.exchange, routing_key=route, body=message, properties=PERSIST)
+            self.channel.basic_publish(exchange=self.exchange, routing_key=target, body=message, properties=PERSIST)
         except Exception as e:
             logger = logging.getLogger(self.__class__.__name__)
             logger.error("Unable to publish the message: %s", e.message)

@@ -16,7 +16,9 @@ run:
 ifndef ($(RABBIT_HOST))
 	RABBIT_HOST=localhost
 endif
-	docker run -it --rm --name $(NAME) -e RABBIT_HOST=$(RABBIT_HOST) $(IMAGE) /bin/bash
+	docker run -d --name $(NAME) -e RABBIT_HOST=$(RABBIT_HOST) $(REPO)/$(IMAGE) 
+	docker exec -it $(NAME) /bin/bash
+	docker rm -f $(NAME)
 
 push:
 	docker tag $(IMAGE) $(REPO)/$(IMAGE)

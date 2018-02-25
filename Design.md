@@ -2,6 +2,8 @@
 
 ## Project Structure
 
+TBD
+
 ## RabbitMQ
 
 1. Starting the RabbitMQ server
@@ -29,6 +31,8 @@ docker network inspect bridge
 
 ## The Data Model
 
+TDB
+
 ## The Task Class
 
 1. Provides a Logger for subclasses to use.
@@ -38,6 +42,8 @@ docker network inspect bridge
   1. `command(self, input_string)`<br/>Called when a *command* message arrives for the service. The `input` parameter will contain the command that was sent to the service.
 
 ## Building Docker Images
+
+TBD
 
 ## The Services
 
@@ -55,4 +61,6 @@ docker network inspect bridge
 | | order.kmeans |
 
 ## Running The Services
+
+TBD
 
