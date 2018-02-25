@@ -1,5 +1,5 @@
 from Tiler.Tiler import Tiler
-from Ranker.SimilarityJaccard import *
+# from Ranker.SimilarityJaccard import *
 
 
 

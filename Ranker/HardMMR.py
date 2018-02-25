@@ -13,7 +13,7 @@ This code contains the implementation of Abstract method for BiRanker.
 '''
 
 logging.config.fileConfig('logging.ini')
-logger = logging.getLogger('bioAsqLogger')
+# logger = logging.getLogger('bioAsqLogger')
 
 
 #Class that inherits the class CoreMMR which extends the abstract class BiRanker
@@ -49,7 +49,7 @@ class HardMMR(CoreMMR):
 		#The class variable that is set to 1 in the constructor is changed here
 		self.mmrInstance.numSelectedSentences = 9
 		selected_sents = self.mmrInstance.getRankedList(question)
-		logger.info('Performed Hard Constrainted MMR')
+		self.logger.info('Performed Hard Constrainted MMR')
 		return selected_sents
 
 

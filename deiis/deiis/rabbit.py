@@ -393,6 +393,11 @@ class Task(object):
         self.listener.stop()
         self.logger.debug('Stopped listeners.')
 
+    def join(self):
+        """Waits for this task's thread to terminate."""
+        self.thread.join()
+        self.logger.debug('Thread %s terminated.', self.__class__.__name__)
+
     def wait_for(self):
         """Waits for this task's thread to terminate."""
         self.thread.join()

@@ -11,15 +11,18 @@ This code contains the implementation of Abstract method for BiRanker.
 '''
 
 logging.config.fileConfig('logging.ini')
-logger = logging.getLogger('bioAsqLogger')
+# logger = logging.getLogger('bioAsqLogger')
 
 #Class that extends the abstract class BiRanker
 class CoreMMR(BiRanker):
 
+	def __init__(self, route='mmr.core', host='localhost', alpha=0.5, selected=10):
+		super(CoreMMR, self).__init__(route, host=host, alpha=alpha, selected=selected)
+
 	#implementation of the abstract method that takes question as input and returns a ranked list of sentences as output
 	def getRankedList(self, question):
 		selectedSentences = []
-		snippets = question['snippets']
+		snippets = question.snippets
 		#This is the class method from the BiRanker that is used to compute the positional scores of the sentences in the snippets.
 		pos_dict = {}
 		self.beta = 0
@@ -33,7 +36,7 @@ class CoreMMR(BiRanker):
 			best_sim = -99999999
 			for sentence in sentences:
 				#similarityJaccard is an extension of Similarity Measure that takes 2 sentences ansd returns the float (similarity)
-				similarityInstance = SimilarityJaccard(sentence, question['body'])
+				similarityInstance = SimilarityJaccard(sentence, question.body)
 				ques_sim = similarityInstance.calculateSimilarity()
 				max_sent_sim = -99999999
 				for other in best:
@@ -42,7 +45,7 @@ class CoreMMR(BiRanker):
 						try:
 							current_sent_sim = (self.beta*similarityInstance.calculateSimilarity())+((1-self.beta)*self.pos_dict[sentence])
 						except:
-							logger.info('Looking for Sentence: '+ str(sentence.lstrip().rstrip()) +'in positional dictionary')
+							self.logger.info('Looking for Sentence: '+ str(sentence.lstrip().rstrip()) +'in positional dictionary')
 							current_sent_sim = (self.beta*similarityInstance.calculateSimilarity())+((1-self.beta)*self.pos_dict[sentence.lstrip().rstrip()])
 					else: # since the value of beta is set to 0
 						current_sent_sim = similarityInstance.calculateSimilarity()
@@ -60,7 +63,7 @@ class CoreMMR(BiRanker):
 					selectedSentences.append(current_best)
 			else:
 				break
-		logger.info('Performed Core MMR')
+		self.logger.info('Performed Core MMR')
 		return selectedSentences
 
 

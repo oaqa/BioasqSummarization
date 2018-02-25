@@ -154,9 +154,9 @@ class Serializer:
     """
     Serializes classes to/from JSON.
 
-    Always use the ``Serializer`` class to ensure that object as serialized
+    Always use the ``Serializer`` class to ensure that objects are serialized
     consistently.  In particular the Serializer class uses a custom JSON
-    encoded that checks each class to be serialized for a __json_model__
+    encoder that checks each class to be serialized for a __json_model__
     method and calls that if present.
     """
 

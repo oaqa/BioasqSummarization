@@ -1,6 +1,8 @@
 import abc
 from abc import abstractmethod
 
+from deiis.model import Question
+from deiis.rabbit import Task
 from flask import Flask, request, abort
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
@@ -16,18 +18,24 @@ This code contains the abstract class for the BiRanker.
 '''
 
 logging.config.fileConfig('logging.ini')
-logger = logging.getLogger('bioAsqLogger')
+# logger = logging.getLogger('bioAsqLogger')
 
 '''
 This is an Abstract class that serves as a template for implementations for:
 ranking among sentences and ranking with question.
 '''
-class BiRanker:
-	__metaclass__ = abc.ABCMeta
-	@classmethod
-	def __init__(self):
-		self.alpha = 0.5
-		self.numSelectedSentences = 10
+class BiRanker(Task):
+	#__metaclass__ = abc.ABCMeta
+	#@classmethod
+	def __init__(self, route, host='localhost', alpha=0.5, selected=10):
+		super(BiRanker, self).__init__(route, host=host)
+		self.alpha = alpha
+		self.numSelectedSentences = selected
+
+	def perform(self, input):
+		question = Question(input)
+		question.ranked = self.getRankedList(question)
+		return question
 
 	@abstractmethod
 	def getRankedList(self):
@@ -38,8 +46,8 @@ class BiRanker:
 
 		sentences = []
 		snippetsText = []
-		for snippet in question['snippets']:
-			text = unicode(snippet["text"]).encode("ascii", "ignore")
+		for snippet in question.snippets:
+			text = unicode(snippet.text).encode("ascii", "ignore")
 			snippetsText.append(text)
 			if text == "":
 				continue
@@ -55,7 +63,7 @@ class BiRanker:
 		max_rank = len(snippets)
 		rank = 0
 		for snippet in snippets:
-			snippet = unicode(snippet["text"]).encode("ascii","ignore")
+			snippet = unicode(snippet.text).encode("ascii","ignore")
 			more_sentences = [i.lstrip().rstrip() for i in sent_tokenize(snippet)]
 			#print more_sentences
 			#rint more_sentences
@@ -64,5 +72,5 @@ class BiRanker:
 				if sentence not in pos_dict:
 				  pos_dict[sentence] = 1-(float(rank)/max_rank)
 			rank += 1
-		logger.info('Computed position dictionary for Bi Ranking')
+		self.logger.info('Computed position dictionary for Bi Ranking')
 		return pos_dict

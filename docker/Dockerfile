@@ -20,6 +20,7 @@ RUN pip install flask nltk pika werkzeug jinja2 itsdangerous click \
     cssselect lxml diskcache
 RUN python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
 
+COPY logging.ini /root
 ADD deiis-rabbit.tgz /root/deiis
 RUN cd /root/deiis && python setup.py install
 

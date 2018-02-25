@@ -13,7 +13,10 @@ stop:
 	docker rm -f $(NAME)
 
 run:
-	docker run -it --rm --name $(NAME) $(IMAGE) /bin/bash
+ifndef ($(RABBIT_HOST))
+	RABBIT_HOST=localhost
+endif
+	docker run -it --rm --name $(NAME) -e RABBIT_HOST=$(RABBIT_HOST) $(IMAGE) /bin/bash
 
 push:
 	docker tag $(IMAGE) $(REPO)/$(IMAGE)

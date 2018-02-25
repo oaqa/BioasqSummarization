@@ -18,37 +18,18 @@ class ResultsCollector(Task):
     it receives a ``SAVE`` command message.
     """
 
-    def __init__(self):
-        super(ResultsCollector, self).__init__('results')
+    def __init__(self, host='localhost'):
+        super(ResultsCollector, self).__init__('results', host=host)
         self.logger.info('Created Results task')
         self.count = 0
         self.questions = list()
 
     def perform(self, input):
         self.logger.info('Received results')
-        message = Serializer.parse(input, Message)
-        if message.type == 'command':
-            self.logger.debug("Received command message")
-            if message.body == 'DIE':
-                self.logger.info('Received the poison pill')
-                self.stop()
-            elif message.body.startswith('SAVE'):
-                self.logger.debug("Received the SAVE command.")
-                parts = message.body.split(' ')
-                if len(parts) > 1:
-                    self.save(parts[1])
-                else:
-                    self.save()
-            elif message.body == 'RESET':
-                self.logger.info("Clearing the question list.")
-                self.questions = list()
-            else:
-                self.logger.warn("Unknown command message: %s", message.body)
-            return
 
-        question = Question(message.body)
+        question = Question(input)
         self.logger.debug("Received results for question %s", question.id)
-        self.questions.append(Question(message.body))
+        self.questions.append(question)
 
         # if isinstance(message.body, basestring):
         #     print message.body
@@ -58,6 +39,20 @@ class ResultsCollector(Task):
         # else:
         #     self.logger.error("Unhandled message body type: " + str(type(message.body)))
         #     print str(message.body)
+
+    def command(self, cmd):
+        if cmd == 'SAVE':
+            self.logger.info('Received the SAVE command')
+            parts = cmd.split(' ')
+            if (len(parts) > 1):
+                self.save(parts[1])
+            else:
+                self.save()
+        elif cmd == 'RESET':
+            self.logger.inf0('Received the RESET command')
+            self.questions = list()
+        else:
+            self.logger.error('Recevied and unknown command: ' + cmd)
 
     def save(self, path=None):
         if path is None:

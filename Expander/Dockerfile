@@ -1,5 +1,6 @@
-FROM deiis/base
+FROM docker.lappsgrid.org/deiis/base
 
+RUN pip install --upgrade pip
 RUN pip install pyquery
 
 ADD metamap.tgz /usr/local/share
