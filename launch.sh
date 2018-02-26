@@ -5,6 +5,6 @@ if [ "$RABBIT_HOST" = "" ] ; then
 	exit 1
 fi
 
-for container in tiler ranker expander results ; do
-	docker run -d -e RABBIT_HOST=$RABBIT_HOST --name $container deiis/$container
+for container in tiler ranker expander order results ; do
+	docker run -d -e RABBIT_HOST=$RABBIT_HOST --name $container docker.lappsgrid.org/deiis/$container
 done

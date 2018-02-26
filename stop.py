@@ -7,6 +7,7 @@ from deiis.rabbit import MessageBus, Message
 all = [ 'mmr.hard', 'mmr.soft', 'mmr.core',
         'expand.none', 'expand.umls', #'expand.snomed',
         'tiler.concat',
+        'order.cluster', 'order.majority', 'order.kmeans',
         'results'
         ]
 

@@ -24,10 +24,10 @@ The subclass that extends the abstract class is valid if and only if all the abs
 '''
 
 logging.config.fileConfig('logging.ini')
-logger = logging.getLogger('bioAsqLogger')
+# logger = logging.getLogger('bioAsqLogger')
 
 class Expander(Task):
-	# __metaclass__ = abc.ABCMeta
+	__metaclass__ = abc.ABCMeta
 	# @classmethod
 	def __init__(self, route, host='localhost'): #constructor for the abstract class
 		super(Expander, self).__init__(route, host=host)
@@ -41,9 +41,9 @@ class Expander(Task):
 		pass
 	
 	#Given a sentence as input, this method gives a list of all the biomedical concepts identified by the metamap
-	@classmethod
+	#@classmethod
 	def getMetaConcepts(self, sentence):
-		logger.info('retrieving meta concepts from MetaMap')
+		self.logger.info('retrieving meta concepts from MetaMap')
 		try:
 			sents = [sentence]
 			cuiList = []
@@ -53,7 +53,7 @@ class Expander(Task):
 			metaConcepts,error = self.mm.extract_concepts(sents,[1,2])
 			return metaConcepts
 		except Exception as e:
-			logger.debug('Metamap exception '+ str(e))
+			self.logger.debug('Metamap exception '+ str(e))
 			return []
 
 
