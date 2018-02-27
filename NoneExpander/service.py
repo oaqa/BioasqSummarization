@@ -7,7 +7,7 @@ from NoneExpander import NoneExpander
 logging.config.fileConfig('logging.ini')
 
 if __name__ == "__main__":
-    logger = logging.getLogger('main')
+    logger = logging.getLogger('NoneExpander')
 
     host = os.environ.get('RABBIT_HOST', 'localhost')
 
