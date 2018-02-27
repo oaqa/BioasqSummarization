@@ -1,4 +1,3 @@
-from Tiler import Tiler
 from SimilarityCosine import *
 from SimilarityJaccard import *
 
@@ -108,9 +107,9 @@ def wellformatize(s):
     return ws.strip()
 
 '''
-This is a subclass that extends the abstract class Tiler.
+This is the Fusion class
 '''
-class Fusion(Tiler):
+class Fusion():
 
 
 	def readInDocument(self,doc):
