@@ -21,10 +21,10 @@ class HardMMR(CoreMMR):
 
 	#constructor to instantiate CoreMMR since we want to change certain class variables, which are shown as follows
 	def __init__(self):
-		self.mmrInstance = CoreMMR()
-		self.mmrInstance.numSelectedSentences = 1
-		self.mmrInstance.pos_dict = {}
-		self.mmrInstance.alpha = 0.5
+		#self.mmrInstance = CoreMMR()
+		self.numSelectedSentences = 1
+		self.pos_dict = {}
+		self.alpha = 0.5
 
 	#abstract method that takes a question and returns a string
 	def getRankedList(self, question):
@@ -35,7 +35,7 @@ class HardMMR(CoreMMR):
 		sentences = [i.lstrip().rstrip() for i in sent_tokenize(snippet)]
 
 		#selecting 1 sentence from the first snippet
-		selected_sents = self.mmrInstance.getRankedList(question)
+		selected_sents = super( HardMMR, self).getRankedList(question)
 
 		summary = selected_sents[0]
 		leftover = set(sentences).difference(set(selected_sents))
@@ -45,10 +45,10 @@ class HardMMR(CoreMMR):
 			more_sentences = [i.lstrip().rstrip() for i in sent_tokenize(snippet)]
 			leftover = leftover.union(set(more_sentences))
 		#selecting the remaining 9 sentences from the leftover
-		self.mmrInstance.sentences = list(leftover)
+		self.sentences = list(leftover)
 		#The class variable that is set to 1 in the constructor is changed here
-		self.mmrInstance.numSelectedSentences = 9
-		selected_sents = self.mmrInstance.getRankedList(question)
+		self.numSelectedSentences = 9
+		selected_sents = super( HardMMR, self).getRankedList(question)
 		logger.info('Performed Hard Constrainted MMR')
 		return selected_sents
 
