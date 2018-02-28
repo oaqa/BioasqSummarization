@@ -1,6 +1,8 @@
 import sys
 import json
 import copy
+
+# from deiis.model import Question
 from nltk.tokenize import sent_tokenize
 
 from NoneExpander.NoneExpander import NoneExpander
@@ -18,7 +20,7 @@ from logging import config
 
 from Expander.singletonConceptId import *
 
-import question_classifier
+# import question_classifier
 
 '''
 @Author: Khyathi Raghavi Chandu
@@ -82,7 +84,7 @@ class Pipeline(object):
         infile = open(self.filePath, 'r')
         data = json.load(infile)
         logger.info('Loaded training data')
-        qc = question_classifier.classifier()
+        # qc = question_classifier.classifier()
 
         for (i, question) in enumerate(data['questions']): # looping over all questions
 
@@ -137,6 +139,7 @@ class Pipeline(object):
             #EXECUTION OF ONE OF BIRANKERS
             #rankedSentencesList = self.biRankerInstance.getRankedList(modifiedQuestion)
             rankedSentencesList = self.biRankerInstance.getRankedList(question)
+            # rankedSentencesList = self.biRankerInstance.getRankedList(Question(question))
             logger.info('Retrieved ranked list of sentences...')
 
 
@@ -153,7 +156,11 @@ class Pipeline(object):
             #EXECUTION OF TILING
             tiler_info = {'max_length': 200, 'max_tokens': 200, 'k': 2, 'max_iter': 20}
             orderedList = self.orderInstance.orderSentences(rankedSentencesListOriginal, rankedSnippets, tiler_info)
-            fusedList = self.fusionInstance.tileSentences(orderedList, 200)
+
+            ## TODO Restore Fusion service
+            # fusedList = self.fusionInstance.tileSentences(orderedList, 200)
+            fusedList = orderedList
+
             logger.info('Tiling sentences to get alternative summary...')
             
             #EXECUTION OF EVAULATION (To be done)

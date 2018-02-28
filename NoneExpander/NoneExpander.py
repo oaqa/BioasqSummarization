@@ -19,5 +19,7 @@ class NoneExpander(Task):
 		super(NoneExpander, self).__init__('expand.none', host=host)
 
 	def perform(self, sentence):
-		return sentence
+		return self.getExpansions(sentence)
 
+	def getExpansions(self,sentence):
+		return sentence

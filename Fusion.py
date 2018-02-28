@@ -1,5 +1,6 @@
-from deiis.similarity import SimilarityCosine
-from deiis.similarity import SimilarityJaccard
+from SimilarityCosine import *
+from SimilarityJaccard import *
+
 
 
 import logging

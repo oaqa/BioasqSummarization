@@ -10,12 +10,12 @@ class SimilarityMeasure(object):
         self.sentence2 = sentence2
         self.stopWords = set(stopwords.words('english'))
 
-    def calculateSimilarity(self, sentence1, sentence2):
+    def calculateSimilarity(self):
         pass
 
 
 class SimilarityJaccard(SimilarityMeasure):
-	def calculateSimilarity(self, s1, s2):
+	def calculateSimilarity(self):
 		set1 = set([i.lower() for i in word_tokenize(self.sentence1) if i.lower() not in self.stopWords])
 		set2 = set([i.lower() for i in word_tokenize(self.sentence2) if i.lower() not in self.stopWords])
 		return float(len(set1.intersection(set2)))/len(set1.union(set2))
