@@ -14,3 +14,6 @@ sh==1.09
 six==1.7.2
 wsgiref==0.1.2
 pulp
+diskcache
+sklearn
+

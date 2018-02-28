@@ -1,5 +1,5 @@
 from BiRanker import BiRanker
-from SimilarityJaccard import *
+from deiis.similarity import SimilarityJaccard
 
 import logging
 from logging import config

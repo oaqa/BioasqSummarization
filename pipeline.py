@@ -3,7 +3,7 @@ import json
 import copy
 from nltk.tokenize import sent_tokenize
 
-from NoExpander import NoExpander
+from NoneExpander.NoneExpander import NoneExpander
 
 from Ranker.CoreMMR import CoreMMR
 
@@ -178,9 +178,9 @@ class Pipeline(object):
         return allAnswerQuestion
 
 if __name__ == '__main__':
-    filePath = sys.argv[1]
-    #filePath = "../input/BioASQ-trainingDataset5b.json"
-    expanderInstance = NoExpander()
+    #filePath = sys.argv[1]
+    filePath = "./input/BioASQ-trainingDataset5b.json"
+    expanderInstance = NoneExpander()
     biRankerInstance = CoreMMR()
     orderInstance = MajorityCluster()
     fusionInstance = Fusion()

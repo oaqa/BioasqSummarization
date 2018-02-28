@@ -1,3 +1,5 @@
+from distutils import dirname
+
 from pymetamap import MetaMap
 import os
 import diskcache as dc
@@ -20,7 +22,8 @@ class SingletonMetaMap:
 		# self.start_command = "/Users/khyathi/installations/public_mm/bin/skrmedpostctl start"
 		# self.stop_command = "/Users/khyathi/installations/public_mm/bin/skrmedpostctl stop"
 		config = ConfigParser.ConfigParser()
-		config.read('application.ini')
+		config.read(dirname(__file__) + '/application.ini')
+
 		self.mm = MetaMap.get_instance(config.get('MetaMap', 'instance'))
 		self.start_command = config.get('MetaMap', 'start')
 		self.stop_command = config.get('MetaMap', 'stop')

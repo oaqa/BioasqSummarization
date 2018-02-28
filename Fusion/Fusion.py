@@ -1,5 +1,5 @@
-from Tiler.Tiler import Tiler
-# from Ranker.SimilarityJaccard import *
+from deiis.similarity import SimilarityCosine
+from deiis.similarity import SimilarityJaccard
 
 
 
@@ -15,7 +15,7 @@ import pulp
 import nltk
 import string
 import re
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 
 logging.config.fileConfig('logging.ini')
@@ -107,9 +107,9 @@ def wellformatize(s):
     return ws.strip()
 
 '''
-This is a subclass that extends the abstract class Tiler.
+This is the Fusion class
 '''
-class Fusion(Tiler):
+class Fusion():
 
 
 	def readInDocument(self,doc):

@@ -3,9 +3,7 @@ from abc import abstractmethod
 
 from deiis.model import Question
 from deiis.rabbit import Task
-from flask import Flask, request, abort
 from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords
 
 import logging
 from logging import config

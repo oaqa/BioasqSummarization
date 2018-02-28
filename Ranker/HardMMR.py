@@ -1,6 +1,5 @@
 from BiRanker import *
 from CoreMMR import CoreMMR
-from SimilarityJaccard import *
 
 import logging
 from logging import config
