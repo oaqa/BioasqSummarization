@@ -86,8 +86,14 @@ class Pipeline(object):
         logger.info('Loaded training data')
         # qc = question_classifier.classifier()
 
-        for (i, question) in enumerate(data['questions']): # looping over all questions
+        concat_inst = Concatenation()
 
+        questions = data['questions']
+        for i in len(questions):
+            question = questions[i]
+        # for (i, question) in enumerate(data['questions']): # looping over all questions
+            print '----------------------------'
+            print str(i) + ": " + question['id']
             logger.info('Started summarization pipeline for Question '+ str(i))
 
             ExpansiontoOriginal = {}
@@ -117,6 +123,8 @@ class Pipeline(object):
             #EXECUTIONS OF EXPANSIONS
             #expansion on question body i.e, the text in the question
             expandedQuestion = self.expanderInstance.getExpansions(question['body'])
+            print 'Expanded'
+            print expandedQuestion
 
             #expansion on every sentence in each of the snippets
             expandedSnippets = []
@@ -141,7 +149,9 @@ class Pipeline(object):
             rankedSentencesList = self.biRankerInstance.getRankedList(question)
             # rankedSentencesList = self.biRankerInstance.getRankedList(Question(question))
             logger.info('Retrieved ranked list of sentences...')
-
+            print 'Ranked sentence length: ' + str(len(rankedSentencesList))
+            if len(rankedSentencesList) == 0:
+                continue
 
             #ExpansiontoOriginal = {value: key for key, value in OriginaltoExpansion.iteritems()}
             rankedSentencesListOriginal = []
@@ -151,7 +161,12 @@ class Pipeline(object):
                     rankedSentencesListOriginal.append(ExpansiontoOriginal[sentence.strip()])
                     rankedSnippets.append(SentencetoSnippet[sentence.strip()])
                 except:
-                    pass
+                    # Never just 'pass' an exception.
+                    # pass
+                    print "ERROR: Unexpected exception."
+                    #print sys.exc_info()[0]
+                    print sys.exc_info()
+                    print '==='
 
             #EXECUTION OF TILING
             tiler_info = {'max_length': 200, 'max_tokens': 200, 'k': 2, 'max_iter': 20}
@@ -168,7 +183,8 @@ class Pipeline(object):
             #goldIdealAnswer, r2, rsu = evaluatorInstance.calculateRouge(question['body'], finalSummary)
 
             #uncomment the following 3 lines for fusion
-            concat_inst = Concatenation()
+            # concat_inst = Concatenation()
+
             #finalSummary = concat_inst.tileSentences(rankedSentencesList, pred_length) #pred_length*5
             finalSummary = concat_inst.tileSentences(fusedList, 200) #pred_length*5
             #baseline_summary = concat_inst.tileSentences(rankedSentencesListOriginal, pred_length)

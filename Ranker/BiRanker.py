@@ -44,8 +44,10 @@ class BiRanker(Task):
 
 		sentences = []
 		snippetsText = []
-		for snippet in question.snippets:
-			text = unicode(snippet.text).encode("ascii", "ignore")
+		# for snippet in question.snippets:
+		# 	text = unicode(snippet.text).encode("ascii", "ignore")
+		for snippet in question['snippets']:
+			text = unicode(snippet['text']).encode("ascii", "ignore")
 			snippetsText.append(text)
 			if text == "":
 				continue
@@ -61,7 +63,8 @@ class BiRanker(Task):
 		max_rank = len(snippets)
 		rank = 0
 		for snippet in snippets:
-			snippet = unicode(snippet.text).encode("ascii","ignore")
+			#snippet = unicode(snippet.text).encode("ascii","ignore")
+			snippet = unicode(snippet['text']).encode("ascii", "ignore")
 			more_sentences = [i.lstrip().rstrip() for i in sent_tokenize(snippet)]
 			#print more_sentences
 			#rint more_sentences

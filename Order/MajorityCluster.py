@@ -11,6 +11,11 @@ class MajorityCluster(SentenceOrderer):
         self.stopwords = set(stopwords.words('english'))
 
     def orderSentences(self, sentences, snippets, info_dict):
+        if len(sentences) == 0:
+            raise ValueError("Sentence list is empty.")
+
+        print "Sentences: " + str(len(sentences))
+        print "Snippets : " + str(len(snippets))
         chunks = []
         sents, snips = self.truncate(sentences, snippets, info_dict['max_length'])
         docs_seen = set()
@@ -60,6 +65,9 @@ class MajorityCluster(SentenceOrderer):
             chunk_pair.append((chunk, vec))
 
         i = 0
+        print "len vec_chunks: " + str(len(vec_chunks))
+        print "len vec_chunks 0: " + str(len(vec_chunks[0]))
+        n = len(vec_chunks[0])
         prev_vec = np.ones(len(vec_chunks[0]))
         while i+1 < len(chunks):
             j = i + 1

@@ -22,7 +22,8 @@ class CoreMMR(BiRanker):
 	#implementation of the abstract method that takes question as input and returns a ranked list of sentences as output
 	def getRankedList(self, question):
 		selectedSentences = []
-		snippets = question.snippets
+		# snippets = question.snippets
+		snippets = question['snippets']
 		#This is the class method from the BiRanker that is used to compute the positional scores of the sentences in the snippets.
 		pos_dict = {}
 		self.beta = 0
@@ -36,7 +37,8 @@ class CoreMMR(BiRanker):
 			best_sim = -99999999
 			for sentence in sentences:
 				#similarityJaccard is an extension of Similarity Measure that takes 2 sentences ansd returns the float (similarity)
-				similarityInstance = SimilarityJaccard(sentence, question.body)
+				# similarityInstance = SimilarityJaccard(sentence, question.body)
+				similarityInstance = SimilarityJaccard(sentence, question['body'])
 				ques_sim = similarityInstance.calculateSimilarity()
 				max_sent_sim = -99999999
 				for other in best:

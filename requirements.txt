@@ -16,4 +16,6 @@ wsgiref==0.1.2
 pulp
 diskcache
 sklearn
+nltk
+
 
