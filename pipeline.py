@@ -89,7 +89,7 @@ class Pipeline(object):
         concat_inst = Concatenation()
 
         questions = data['questions']
-        for i in len(questions):
+        for i in range(len(questions)):
             question = questions[i]
         # for (i, question) in enumerate(data['questions']): # looping over all questions
             print '----------------------------'
@@ -156,17 +156,22 @@ class Pipeline(object):
             #ExpansiontoOriginal = {value: key for key, value in OriginaltoExpansion.iteritems()}
             rankedSentencesListOriginal = []
             rankedSnippets = []
+            count = 0
             for sentence in rankedSentencesList:
                 try:
                     rankedSentencesListOriginal.append(ExpansiontoOriginal[sentence.strip()])
                     rankedSnippets.append(SentencetoSnippet[sentence.strip()])
+                    ++count
                 except:
-                    # Never just 'pass' an exception.
                     # pass
                     print "ERROR: Unexpected exception."
                     #print sys.exc_info()[0]
                     print sys.exc_info()
                     print '==='
+
+            if (count == 0):
+                print "Original ranked sentence list is empty!"
+                continue
 
             #EXECUTION OF TILING
             tiler_info = {'max_length': 200, 'max_tokens': 200, 'k': 2, 'max_iter': 20}

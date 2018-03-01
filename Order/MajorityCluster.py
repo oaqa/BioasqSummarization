@@ -12,7 +12,8 @@ class MajorityCluster(SentenceOrderer):
 
     def orderSentences(self, sentences, snippets, info_dict):
         if len(sentences) == 0:
-            raise ValueError("Sentence list is empty.")
+            # raise ValueError("Sentence list is empty.")
+            return sentences
 
         print "Sentences: " + str(len(sentences))
         print "Snippets : " + str(len(snippets))

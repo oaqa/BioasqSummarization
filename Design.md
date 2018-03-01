@@ -29,17 +29,19 @@ docker network inspect bridge
 }
 ```
 
-## The Data Model
-
-TDB
-
 ## The Task Class
+
+Each services extends the `deiis.rabbit.Task` class which does the following for the service:
 
 1. Provides a Logger for subclasses to use.
 1. Provides methods for starting, stopping, and joining (waiting for) the service thread.
+1. Listens for the *poison pill* and stops the service thread when it is received.
 1. Provides two abstract methods subclasses can override:
   1. `perform(self, input_string)`<br/>Called whenever a message arrives for the service.
   1. `command(self, input_string)`<br/>Called when a *command* message arrives for the service. The `input` parameter will contain the command that was sent to the service.
+
+The service **must** call the Task constructor (`__init__` method) and pass the *routing key* for the service and the *host* where the RabbitMQ server is running.
+
 
 ## Building Docker Images
 
