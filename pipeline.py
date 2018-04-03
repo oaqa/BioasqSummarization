@@ -35,7 +35,7 @@ from logging import config
 from pymetamap import MetaMap
 from singletonConceptId import *
 
-import question_classifier
+#import question_classifier
 
 '''
 @Author: Khyathi Raghavi Chandu
@@ -99,7 +99,7 @@ class Pipeline(object):
         infile = open(self.filePath, 'r')
         data = json.load(infile)
         logger.info('Loaded training data')
-        qc = question_classifier.classifier()
+        #qc = question_classifier.classifier()
 
         for (i, question) in enumerate(data['questions']): # looping over all questions
 
